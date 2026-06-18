@@ -23,5 +23,9 @@
 hs_err_pid*
 replay_pid*
 
+## ignore IDE specific folders
+.idea/
+.vscode/
+
 ## working files
-results
+results/
