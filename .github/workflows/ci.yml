@@ -63,11 +63,11 @@ jobs:
 
     - name: Download apexlang.ebnf
       run: |
-        wget -O results/apexlang.ebnf https://docs.oracle.com/en/database/oracle/apex/26.1/apxln/apexlang.ebnf
+        wget -O results/apexlang.ebnf.txt https://docs.oracle.com/en/database/oracle/apex/26.1/apxln/apexlang.ebnf
 
     - name: Convert apexlang.ebnf to apexlang.w3c.ebnf
       run: |
-        java Convert.java results/apexlang.ebnf results/apexlang.w3c.ebnf
+        java Convert.java results/apexlang.ebnf.txt results/apexlang.w3c.ebnf.txt
 
     - name: Download RR
       run: |
@@ -75,7 +75,7 @@ jobs:
 
     - name: Run RR
       run: |
-        java -jar rr.war -suppressebnf -html -color:#BDE6FF -out:results/apexlang.html results/apexlang.w3c.ebnf
+        java -jar rr.war -suppressebnf -html -color:#BDE6FF -out:results/apexlang.html results/apexlang.w3c.ebnf.txt
 
     - name: Upload Results
       uses: actions/upload-artifact@v7
