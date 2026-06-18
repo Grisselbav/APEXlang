@@ -17,14 +17,8 @@ private static String fixGrammar(String input) {
     var output = input;
 
     // fix multiline comments
-    var multiLineCommentPattern = Pattern.compile("(\\(\\*)(.+?)(\\*\\))", Pattern.DOTALL);
-    var multiLineCommentMatcher = multiLineCommentPattern.matcher(output);
-    while (multiLineCommentMatcher.find()) {
-        var comment = multiLineCommentMatcher.group(0);
-        var newComment = "/*" + multiLineCommentMatcher.group(2) + "*/";
-        output = output.replace(comment, newComment);
-        multiLineCommentMatcher = multiLineCommentPattern.matcher(output);
-    }
+    var multiLineCommentPattern = Pattern.compile("\\(\\*(.+?)\\*\\)", Pattern.DOTALL);
+    output = multiLineCommentPattern.matcher(output).replaceAll("/*$1*/");
 
     // fix symbols, remove leading "<" and trailing ">"
     var symbolPattern = Pattern.compile("<([A-Za-z_][A-Za-z0-9_-]*)>");
@@ -32,23 +26,11 @@ private static String fixGrammar(String input) {
 
     // fix optionality expressed by [] with ()?
     var optionalityPattern = Pattern.compile("(\\s+)(\\[)(.+?)(])(\\s+)", Pattern.DOTALL);
-    var optionalityMatcher = optionalityPattern.matcher(output);
-    while (optionalityMatcher.find()) {
-        var optionality = optionalityMatcher.group(0);
-        var newOptionality = optionalityMatcher.group(1) + "(" + optionalityMatcher.group(3) + ")?" + optionalityMatcher.group(5);
-        output = output.replace(optionality, newOptionality);
-        optionalityMatcher = optionalityPattern.matcher(output);
-    }
+    output = optionalityPattern.matcher(output).replaceAll("$1($3)?$5");
 
     // fix optional repetitions expressed by {} with ()*
     var repetitionPattern = Pattern.compile("(\\s+)(\\{)(.+?)(})(\\s+)", Pattern.DOTALL);
-    var repetitionMatcher = repetitionPattern.matcher(output);
-    while (repetitionMatcher.find()) {
-        var repetition = repetitionMatcher.group(0);
-        var newRepetition = repetitionMatcher.group(1) + "(" + repetitionMatcher.group(3) + ")*" + repetitionMatcher.group(5);
-        output = output.replace(repetition, newRepetition);
-        repetitionMatcher = repetitionPattern.matcher(output);
-    }
+    output = repetitionPattern.matcher(output).replaceAll("$1($3)*$5");
 
     // fix escaped strings
     output = output.replace("\"\\\"\"", "'\"'");
