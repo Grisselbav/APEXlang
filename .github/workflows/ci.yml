@@ -1,4 +1,4 @@
-name: CI - dbLinter checks and SQL-based tests
+name: CI - Download apexlang.ebnf and convert it to apexlang.html
 
 on:
   push:
@@ -6,14 +6,14 @@ on:
       - '**'
     paths-ignore:
       - 'README.md'
-      - 'images/**'
+      - 'app.png'
       - '.gitignore'
   pull_request:
     branches:
       - '**'
     paths-ignore:
       - 'README.md'
-      - 'images/**'
+      - 'app.png'
       - '.gitignore'
   workflow_dispatch:
 
