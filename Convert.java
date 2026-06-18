@@ -26,21 +26,9 @@ private static String fixGrammar(String input) {
         multiLineCommentMatcher = multiLineCommentPattern.matcher(output);
     }
 
-    // fix <kebab-case> symbols to camelCase syntax without <>
-    var symbolPattern = Pattern.compile("<([A-Za-z0-9]+(?:-[A-Za-z0-9]+)*)>");
-    var symbolMatcher = symbolPattern.matcher(output);
-    while (symbolMatcher.find()) {
-        var symbol = symbolMatcher.group(0);
-        var symbolName = symbolMatcher.group(1);
-        var parts = symbolName.split("-");
-        var newSymbol = new StringBuilder(parts[0]);
-        for (var i = 1; i < parts.length; i++) {
-            newSymbol.append(parts[i].substring(0, 1).toUpperCase())
-                    .append(parts[i].substring(1));
-        }
-        output = output.replace(symbol, newSymbol.toString());
-        symbolMatcher = symbolPattern.matcher(output);
-    }
+    // fix symbols, remove leading "<" and trailing ">"
+    var symbolPattern = Pattern.compile("<([A-Za-z_][A-Za-z0-9_-]*)>");
+    output = symbolPattern.matcher(output).replaceAll("$1");
 
     // fix optionality expressed by [] with ()?
     var optionalityPattern = Pattern.compile("(\\s+)(\\[)(.+?)(])(\\s+)", Pattern.DOTALL);
