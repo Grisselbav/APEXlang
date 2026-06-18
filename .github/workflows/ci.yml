@@ -42,6 +42,24 @@ jobs:
     - name: Prepare directory to be deployed to GitHub Pages
       run: |
         mkdir -p results
+        cat >> results/index.html << 'EOF'
+        <!DOCTYPE html>
+        <html>
+          <head>
+            <meta charset="utf-8">
+            <title>Redirecting</title>
+            <noscript>
+              <meta http-equiv="refresh" content="1; url=apexlang.html" />
+            </noscript>
+            <script>
+              window.location.replace("apexlang.html");
+            </script>
+          </head>
+          <body>
+            Redirecting to <a href="apexlang.html">apexlang.html/</a>...
+          </body>
+        </html>
+        EOF
 
     - name: Download apexlang.ebnf
       run: |
