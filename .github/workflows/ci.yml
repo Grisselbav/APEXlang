@@ -75,7 +75,7 @@ jobs:
 
     - name: Run RR
       run: |
-        java -jar rr.war -html -color:#BDE6FF -out:results/apexlang.html results/apexlang.w3c.ebnf.txt
+        java -jar rr.war -suppressebnf -html -color:#BDE6FF -out:results/apexlang.html results/apexlang.w3c.ebnf.txt
 
     - name: Upload Results
       uses: actions/upload-artifact@v7
